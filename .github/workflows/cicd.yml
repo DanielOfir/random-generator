@@ -4,12 +4,67 @@ on:
   push:
     branches: [main]
 
+env:
+  ENVIRONMENT: stage
+
 jobs:
   docker-build:
-    uses: DanielOfir/github-workflows/.github/workflows/docker-build.yml@main
-    with:
-      app-name: ${{ github.event.repository.name }}
-  # update-tag:
-  #   uses: DanielOfir/github-workflows/.github/workflows/image-tagger.yml@main
-  #   with:
-  #     app-name: ${{ github.event.repository.name }}
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ""
+    steps:
+      - uses: actions/checkout@master
+      - name: Set IMAGE_TAG
+        id: image-tag
+        run: echo "IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Kaniko build
+        uses: aevea/action-kaniko@master
+        with:
+          image: danielofir/${{ github.event.repository.name }}
+          # build_file: random-generator/Dockerfile    with:
+          build_file: Dockerfile
+          tag: ${{ steps.image-tag.outputs.IMAGE_TAG }}
+          tag_with_latest: true
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    outputs:
+      image-tag: ${{ steps.image-tag.outputs.IMAGE_TAG }}
+
+  # mock-build:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     IMAGE_TAG: ""
+  #   steps:
+  #     - uses: actions/checkout@master
+  #     - name: Set IMAGE_TAG
+  #       id: image-tag
+  #       run: echo "IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+  #   outputs:
+  #     image-tag: ${{ steps.image-tag.outputs.IMAGE_TAG }}
+
+  update-tag:
+    runs-on: ubuntu-latest
+    needs: docker-build
+    # needs: mock-build
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Sync charts repo
+        env:
+          GH_TOKEN: ${{ secrets.CHARTS_COMMITTER_TOKEN }}
+        run: |
+          git config --global user.email "auto@tagger.com"
+          git config --global user.name "Auto Tagger"
+          git clone https://${GH_TOKEN}@github.com/DanielOfir/application-charts.git          
+          cd application-charts
+          # cd charts/${{ github.event.repository.name }}/configs/${ENVIRONMENT}
+          cd charts/${{ github.event.repository.name }}/configs/${ENVIRONMENT}
+          yq -i '.deployment.image.tag = "${{ needs.docker-build.outputs.image-tag }}"' ${ENVIRONMENT}.yaml
+          git add .
+          # git commit -m "Update ${{ github.event.repository.name }} tag to ${{ needs.docker-build.outputs.image-tag }}"
+          git commit -m "Update tag to ${{ needs.docker-build.outputs.image-tag }}"
+          git push origin main

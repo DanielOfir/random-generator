@@ -22,7 +22,7 @@ def generate_random():
         <head>
             <style>
                 body {{
-                    background-color: darkcyans;
+                    background-color: darkcyan;
                 }}
             </style>
             <title>Random Number Manipulator</title>
