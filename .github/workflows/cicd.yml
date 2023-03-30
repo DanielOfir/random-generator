@@ -9,7 +9,7 @@ jobs:
     uses: DanielOfir/github-workflows/.github/workflows/docker-build.yml@main
     with:
       app-name: ${{ github.event.repository.name }}
-  update-tag:
-    uses: DanielOfir/github-workflows/.github/workflows/image-tagger.yml@main
-    with:
-      app-name: ${{ github.event.repository.name }}
+  # update-tag:
+  #   uses: DanielOfir/github-workflows/.github/workflows/image-tagger.yml@main
+  #   with:
+  #     app-name: ${{ github.event.repository.name }}
