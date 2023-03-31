@@ -21,28 +21,17 @@ def generate_random():
     <html>
         <head>
             <style>
-                body {
-                    background-color: #262626;
-                    color: #f0f0f0;
-                    font-family: sans-serif;
-                }
-                h1 {
-                    text-align: center;
-                    margin-top: 50px;
-                    margin-bottom: 30px;
-                }
-                p {
-                    text-align: center;
-                    font-size: 1.2rem;
-                }
+                body {{
+                    background-color: darkcyan;
+                }}
             </style>
             <title>Random Number Manipulator</title>
         </head>
         <body>
-            <h1>Random Number Manipulator</h1>
-            <p>
+            <h1 style="text-align:center">Random Number Manipulator</h1>
+            <p style="text-align:center">
                 The square of {} is {}.<br>
-                The double of {} is {}.
+                And the double of {} is {}.
             </p>
         </body>
     </html>
