@@ -17,7 +17,7 @@ def generate_random():
     square = square_res.json()['square']
     double = double_res.json()['double']
 
-    return render_template('/web/index.html', num=num, square=square, double=double)
+    return render_template('index.html', num=num, square=square, double=double)
 
 
 if __name__ == '__main__':
