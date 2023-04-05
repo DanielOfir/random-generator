@@ -1,5 +1,5 @@
 import requests
-from flask import Flask
+from flask import Flask, render_template
 import random
 
 app = Flask(__name__)
@@ -17,30 +17,8 @@ def generate_random():
     square = square_res.json()['square']
     double = double_res.json()['double']
 
-    html = '''
-    <html>
-        <head>
-            <style>
-                body {{
-                    background-color: darkcyan;
-                }}
-            </style>
-            <title>Random Number Manipulator</title>
-        </head>
-        <body>
-            <h1 style="text-align:center">Random Number Manipulator</h1>
-            <p style="text-align:center">
-                The square of {} is {}.<br>
-                And the double of {} is {}.
-            </p>
-        </body>
-    </html>
-    '''
+    return render_template('web/index.html', num=num, square=square, double=double)
 
-    # Return the original number and its square
-    return html.format(num, square, num, double)
-
-    
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
