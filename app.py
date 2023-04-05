@@ -10,14 +10,14 @@ def generate_random():
     num = random.randint(1, 100)
 
     # Send a POST request to the second microservice with the random number
-    square_res = requests.post('http://manipulator-stage:80/square', json={'num': num})
-    double_res = requests.post('http://manipulator-stage:80/double', json={'num': num})
+    res = requests.post('http://manipulator-stage:80/manipulator', json={'num': num})
 
     # Get the result from the second microservice
-    square = square_res.json()['square']
-    double = double_res.json()['double']
+    square = res.json()['square']
+    double = res.json()['double']
+    triple = res.json()['triple']
 
-    return render_template('index.html', num=num, square=square, double=double)
+    return render_template('index.html', num=num, square=square, double=double, triple=triple)
 
 
 if __name__ == '__main__':
