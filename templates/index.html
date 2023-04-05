@@ -1,27 +1,51 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <style>
-            body {
-                background-color: rgb(0, 139, 7);
-            }
-            h1 {
-                text-align: center;
-                margin-top: 50px;
-                margin-bottom: 30px;
-            }
-            p {
-                text-align: center;
-                font-size: 1.2rem;
-            }
-        </style>
-        <title>Random Number Manipulator</title>
-    </head>
-    <body>
-        <h1>Random Number Manipulator</h1>
-        <p>
-            The square of {{ num }} is {{ square }}.<br>
-            And the double of {{ num }} is {{ double }}.
-        </p>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>ArgoCD</title>
+    <style>
+        body {
+            background-color: #1E1F26;
+            font-family: 'Roboto Mono', monospace;
+            color: #fff;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+        p {
+            font-size: 1.5rem;
+            line-height: 2;
+        }
+        code {
+            background-color: #3b3f4a;
+            color: #fff;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Roboto Mono', monospace;
+        }
+        a {
+            color: #3c8dbc;
+        }
+        .image {
+            display: block;
+            margin: 30px auto;
+            max-width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <h1>ArgoCD</h1>
+    <img class="image" src="https://argo-cd.readthedocs.io/en/stable/_images/argocd-logo.png" alt="ArgoCD Logo">
+    <p>
+        ArgoCD is a declarative, GitOps continuous delivery tool for Kubernetes.
+        The square of <code>{{ num }}</code> is <code>{{ square }}</code>.<br>
+        And the double of <code>{{ num }}</code> is <code>{{ double }}</code>.
+    </p>
+    <p>
+        Built with ❤️ by <a href="https://github.com/DanielOfir">Daniel Ofir</a>.
+    </p>
+</body>
 </html>
