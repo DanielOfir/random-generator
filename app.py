@@ -14,7 +14,7 @@ def generate_random():
         num = random.randint(1, 1000)
         random_numbers.append(num)
     res = requests.post('http://manipulator-stage:80/manipulator', json={'nums': random_numbers})
-    outcome = res.json()[manipulation]
+    outcome = res.json()
 
     return render_template('index.html', nums=outcome)
 
