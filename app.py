@@ -6,18 +6,17 @@ app = Flask(__name__)
 
 @app.route('/')
 def generate_random():
-    # Generate a random number between 1 and 100
-    num = random.randint(1, 100)
 
-    # Send a POST request to the second microservice with the random number
-    res = requests.post('http://manipulator-stage:80/manipulator', json={'num': num})
+    possible_manipulations = ['square', 'double', 'triple']
+    random_numbers = []
+    for manipulation in possible_manipulations:
+        # Send a POST request to the second microservice with the random number
+        num = random.randint(1, 1000)
+        random_numbers.append(num)
+    res = requests.post('http://manipulator-stage:80/manipulator', json={'nums': random_numbers})
+    outcome = res.json()[manipulation]
 
-    # Get the result from the second microservice
-    square = res.json()['square']
-    double = res.json()['double']
-    triple = res.json()['triple']
-
-    return render_template('index.html', num=num, square=square, double=double, triple=triple)
+    return render_template('index.html', nums=outcome)
 
 
 if __name__ == '__main__':
