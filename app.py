@@ -10,7 +10,7 @@ def generate_random():
     # Send a POST request to the second microservice with the random number
     num = random.randint(1, 1000)
     res = requests.post('http://manipulator-stage:80/manipulator', json={'num': num})
-    outcome = res.json()
+    outcome = res.json()['num']
 
     return render_template('index.html', num=outcome)
 
